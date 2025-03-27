@@ -23,6 +23,14 @@ public class ControllerPaciente {
         return ResponseEntity.status(201).body(pacienteCreate);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePaciente(@PathVariable Long id){
+    if(pacienteService.deletePaciente(id)){
+        return ResponseEntity.status(204).build();
+    }else{
+        return ResponseEntity.notFound().build();
+    }
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Paciente> getPacienteById(@PathVariable Long id){
         return pacienteService.getById(id)

@@ -27,6 +27,10 @@ public class PacienteService {
         pacientes.add(paciente);
         return paciente;
     }
+    public boolean deletePaciente(Long id){
+        return pacientes.removeIf(p->p.getId().equals(id));
+    }
+
     public Optional<Paciente> getById(Long id){
         return pacientes.stream()
                 .filter(p-> p.getId().equals(id))
