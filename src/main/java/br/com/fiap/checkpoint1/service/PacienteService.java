@@ -25,4 +25,7 @@ public class PacienteService {
         pacientes.add(paciente);
         return paciente;
     }
+    public List<Paciente> getAllPacientes(){
+        return pacientes;
+    }
 }
