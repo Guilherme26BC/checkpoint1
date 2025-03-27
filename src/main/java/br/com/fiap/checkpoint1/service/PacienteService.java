@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PacienteService {
     private List<Paciente> pacientes = new ArrayList<>();
@@ -24,6 +26,11 @@ public class PacienteService {
 
         pacientes.add(paciente);
         return paciente;
+    }
+    public Optional<Paciente> getById(Long id){
+        return pacientes.stream()
+                .filter(p-> p.getId().equals(id))
+                .findFirst();
     }
     public List<Paciente> getAllPacientes(){
         return pacientes;
