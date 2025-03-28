@@ -2,6 +2,7 @@ package br.com.fiap.checkpoint1.controller;
 
 import br.com.fiap.checkpoint1.dto.PacienteRequestCreate;
 import br.com.fiap.checkpoint1.dto.PacienteRequestUpdate;
+import br.com.fiap.checkpoint1.dto.PacienteResponse;
 import br.com.fiap.checkpoint1.model.Paciente;
 import br.com.fiap.checkpoint1.service.PacienteService;
 import org.apache.coyote.Response;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("pacientes")
@@ -19,14 +21,16 @@ public class ControllerPaciente {
     private PacienteService pacienteService;
 
     @PostMapping
-    public ResponseEntity<Paciente> createPaciente(@RequestBody PacienteRequestCreate dto){
-        Paciente pacienteCreate = pacienteService.createPaciente(dto);
-        return ResponseEntity.status(201).body(pacienteCreate);
+    public ResponseEntity<PacienteResponse> createPaciente(@RequestBody PacienteRequestCreate dto){
+        return ResponseEntity.status(201)
+                .body(new PacienteResponse()
+                        .toDto(pacienteService.createPaciente(dto)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Paciente> updatePaciente(@PathVariable Long id, @RequestBody PacienteRequestUpdate dto){
+    public ResponseEntity<PacienteResponse> updatePaciente(@PathVariable Long id, @RequestBody PacienteRequestUpdate dto){
         return pacienteService.updatePaciente(id, dto)
+                .map(p->new PacienteResponse().toDto(p))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -39,14 +43,19 @@ public class ControllerPaciente {
     }
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> getPacienteById(@PathVariable Long id){
+    public ResponseEntity<PacienteResponse> getPacienteById(@PathVariable Long id){
         return pacienteService.getById(id)
+                .map(p->new PacienteResponse().toDto(p))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping
-    public ResponseEntity<List<Paciente>> getAll(){
-        return ResponseEntity.ok(pacienteService.getAllPacientes());
+    public ResponseEntity<List<PacienteResponse>> getAll(){
+        List<PacienteResponse> responses= pacienteService.getAllPacientes()
+                .stream()
+                .map(p->new PacienteResponse().toDto(p))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responses);
     }
 
 }
