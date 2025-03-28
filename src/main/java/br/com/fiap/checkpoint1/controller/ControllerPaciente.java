@@ -1,6 +1,7 @@
 package br.com.fiap.checkpoint1.controller;
 
 import br.com.fiap.checkpoint1.dto.PacienteRequestCreate;
+import br.com.fiap.checkpoint1.dto.PacienteRequestUpdate;
 import br.com.fiap.checkpoint1.model.Paciente;
 import br.com.fiap.checkpoint1.service.PacienteService;
 import org.apache.coyote.Response;
@@ -23,6 +24,12 @@ public class ControllerPaciente {
         return ResponseEntity.status(201).body(pacienteCreate);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Paciente> updatePaciente(@PathVariable Long id, @RequestBody PacienteRequestUpdate dto){
+        return pacienteService.updatePaciente(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePaciente(@PathVariable Long id){
     if(pacienteService.deletePaciente(id)){
