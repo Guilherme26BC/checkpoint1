@@ -10,6 +10,7 @@ public class PacienteResponse {
     private String email;
     private String telefone_completo;
 
+    //metodo para auxiliar no envio de informações paro a web
     public PacienteResponse toDto(Paciente paciente){
         this.setId(paciente.getId());
         this.setNome(paciente.getNome());

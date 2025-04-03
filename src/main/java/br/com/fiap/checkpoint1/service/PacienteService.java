@@ -11,14 +11,15 @@ import java.util.Optional;
 
 @Service
 public class PacienteService {
+    //lista auxiliar
     private List<Paciente> pacientes = new ArrayList<>();
-
+    //sequence para id
     private Long sequence =1L;
 
     public Paciente createPaciente(PacienteRequestCreate dto){
         Paciente paciente = new Paciente();
         paciente.setId(sequence++);
-        //
+        //instanciando os atributos do paciente pelo dto
         paciente.setNome(dto.getNome());
         paciente.setEndereco(dto.getEndereco());
         paciente.setBairro(dto.getBairro());
@@ -29,9 +30,11 @@ public class PacienteService {
         return paciente;
     }
     public Optional<Paciente> updatePaciente(Long id, PacienteRequestUpdate dto){
+        //percorre a lista e procura o id que corresponde ao digitado
         return pacientes.stream().filter(p->p.getId().equals(id))
                 .findFirst()
                 .map(p->{
+                    //atualiza os dados do paciente e atualiza com o dto
                    p.setNome(dto.getNome());
                    p.setEndereco(dto.getEndereco());
                    p.setBairro(dto.getBairro());
@@ -46,6 +49,7 @@ public class PacienteService {
     }
 
     public Optional<Paciente> getById(Long id){
+        //retorna o primeiro elemento que corresponde
         return pacientes.stream()
                 .filter(p-> p.getId().equals(id))
                 .findFirst();

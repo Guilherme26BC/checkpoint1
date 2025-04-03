@@ -42,6 +42,7 @@ public class ControllerPaciente {
         return ResponseEntity.notFound().build();
     }
     }
+    //path variable para separar os mapping de get
     @GetMapping("/{id}")
     public ResponseEntity<PacienteResponse> getPacienteById(@PathVariable Long id){
         return pacienteService.getById(id)
