@@ -2,10 +2,7 @@
 API Java com a finalidade de simular os primeiros passos de um sistema de agendamento de consultas, sendo nesse estado atual, os métodos CRUDs de um Paciente.
 
 ## Instalação
-- Limpar e criar a pasta /target
-``` 
-mvn clean package
-``` 
+
 - Configuração do swagger
     - https://springdoc.org/properties
 
